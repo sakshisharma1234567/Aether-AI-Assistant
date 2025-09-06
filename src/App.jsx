@@ -16,6 +16,7 @@ function  App ( ){
 <img src={va} alt="" id='Aether' />
       <span>I'm  Aether , Your Advanced Virtual Assistant</span>
       {!speaking? <button onClick={()=>{
+        window.speechSynthesis.cancel();
         setPrompt("listening...")
         setSpeaking(true)
    recognition.start()
@@ -37,6 +38,9 @@ function  App ( ){
 }
 
 export default App
+
+
+
 
 
 
