@@ -8,24 +8,25 @@ function UserContext({children}) {
     let [speaking,setSpeaking]=useState(false)
      let [prompt , setPrompt] = useState("listening...")
 let [response, setResponse] = useState(false);
-   function speak(text){
-        let text_speak = new SpeechSynthesisUtterance(text)
-         text_speak.volume=1;
-         text_speak.rate=1;
-         text_speak.pitch=1;
-         text_speak.lang="en-GB";
- window.speechSynthesis.speak(text_speak)
-   }
+
+function speak(text){
+   window.speechSynthesis.cancel();  
+    let utterance = new SpeechSynthesisUtterance(text);
+    utterance.volume = 1;
+    utterance.rate = 1;
+    utterance.pitch = 1;
+    utterance.lang = "en-GB";
+    window.speechSynthesis.speak(utterance);
+}
      async function aiResponse(prompt){
         let text = await run(prompt)
-       
-
-  setPrompt(text)
+       text = text.split(".")[0];
+       setPrompt(text)
         speak(text)
         setResponse(true)
-  setTimeout(()=>{
+       setTimeout(()=>{
           setSpeaking(false)
-  },5000)
+       },5000)
      }
 
   
@@ -38,7 +39,7 @@ let [response, setResponse] = useState(false);
            takeCommand(transcript.toLowerCase())
     }
     recognition.onend = () => {
-  // mic band hone par UI reset
+  
   if (speaking) setSpeaking(false);
 };
      function takeCommand(command){
@@ -96,3 +97,4 @@ response, setResponse
 }
 
 export default UserContext
+
